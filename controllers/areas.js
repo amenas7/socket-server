@@ -1,5 +1,8 @@
 const bcrypt = require('bcrypt');
 
+const { Server } = require('./../sockets/server');
+
+
 //acceder a coneccion de mysql configurada
 const consql = require('../database/database');
 const { generarJWT } = require('../helpers/jwt');
@@ -82,14 +85,43 @@ const crearArea = async(req, res) => {
 
     // crear token
     const token =  await generarJWT( consulta[0].usuarioID );
+
+    const consulta_socket = await consultar_socket(req, res);
+
+    // let arreglo_socket = {
+    //     uid: consulta_socket[0].usuarioID,
+    //     nombre: consulta_socket[0].nombre_total
+    // }
+
+    const server = Server.instance;
+    server.io.emit('cambio-area', consulta_socket );
     
     res.status(201).json({
         ok: true,
         usuario: arreglo,
+        areas: consulta_socket,
         //usuariotoken: req.usuario,
         token
     });
 }
+
+/*---------------------**/
+function consultar_socket(req, res) {
+    const query = `
+    SELECT IDarea as areaid, nombre_area, descripcion, estado from area WHERE estado = 1  
+    `;
+
+    //console.log(query);
+    return new Promise((resolve, reject) => {
+        consql.query(query, (err, rows, fields) => {
+            if (err) {
+                return reject(err);
+            }
+            resolve(rows);
+        });
+    });
+}
+/**-----------------------*/
 
 function registrar(req, res, query) {
     return new Promise((resolve, reject) => {

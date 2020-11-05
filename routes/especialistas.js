@@ -13,7 +13,9 @@ const { getEspecialistas } = require('../controllers/especialistas');
 
 const router = Router();
 
-router.get('/', validarJWT, getEspecialistas );
+router.get('/', 
+    //validarJWT, 
+    getEspecialistas );
 
 
 // router.get('/:id', 

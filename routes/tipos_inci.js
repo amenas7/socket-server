@@ -13,7 +13,8 @@ const { getTipos } = require('../controllers/tipos_inci');
 
 const router = Router();
 
-router.get('/', validarJWT, getTipos );
+//router.get('/', validarJWT, getTipos );
+router.get('/', getTipos );
 
 // router.post('/', 
 //             [

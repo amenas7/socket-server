@@ -8,14 +8,14 @@ const { check } = require ('express-validator');
 const { validarCampos } = require('../middlewares/validar-campos');
 const { validarJWT } = require('../middlewares/validar-jwt');
 
-const { getTickets, crearTicket} = require('../controllers/tickets');
+const { crearTicket, getTicketByID } = require('../controllers/tickets');
 //const { getAreas, crearUsuario, actualizarUsuario, borrarUsuario, getUsuarioByID } = require('../controllers/areas');
 
 const router = Router();
 
-router.get('/', validarJWT, getTickets );
+// router.get('/', validarJWT, getTickets );
 
-router.post('/', 
+router.post('/:id', 
             [
                 //check('tipo_incidencia', 'El tipo de incidencia es obligatorio').not().isEmpty(),
                 //validarCampos,
@@ -36,9 +36,9 @@ router.post('/',
 //             borrarInci 
 // );
 
-// router.get('/:id', 
-//             validarJWT,
-//             getAreaByID 
-// );
+router.get('/:id', 
+            //validarJWT,
+            getTicketByID 
+);
 
 module.exports = router;

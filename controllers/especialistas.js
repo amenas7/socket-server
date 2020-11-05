@@ -19,7 +19,7 @@ const getEspecialistas= (req, res) => {
     on persona.IDpersona = usuario.IDpersona
     inner join rol
     on rol.IDrol = usuario.IDrol
-    where usuario.estado = 1  and usuario.IDrol != 1 `, (err, filas) => {
+    where usuario.estado = 1  and usuario.IDrol != 1 and usuario.IDrol != 5 `, (err, filas) => {
         if (err) {
             console.log(err);
             return res.status(500).json({

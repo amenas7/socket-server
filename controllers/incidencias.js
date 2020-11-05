@@ -11,7 +11,7 @@ const { generarJWT } = require('../helpers/jwt');
 const getIncidencias = (req, res) => {
     consql.query(` SELECT  
     incidencia.IDincidencia as incidenciaid, IDtipo_inci, tipos_inci.nombre_tipo_inci, incidencia.IDpersona,
-    usuario.usuario, incidencia.nombre_persona, 
+    incidencia.IDusuario ,usuario.usuario, incidencia.nombre_persona, 
     CONCAT(usuario.usuario, ' - ', incidencia.nombre_persona) as usuario_completo, 
     nombre_area, incidencia.fecha_reg, detalle_inci,
     CASE
@@ -23,7 +23,7 @@ const getIncidencias = (req, res) => {
     on tipos_inci.IDtipos_inci = incidencia.IDtipo_inci
     inner join usuario
     on usuario.IDpersona = incidencia.IDpersona
-    where incidencia.interno = 1 `, (err, filas) => {
+    where incidencia.interno = 1 ORDER BY incidencia.fecha_reg desc `, (err, filas) => {
         if (err) {
             return res.status(500).json({
                 ok: false,

@@ -43,7 +43,7 @@ const login = async(req, res = response) => {
         usuario: arreglo,
         id: obtenerReg[0].usuarioID,
         token: token,
-        role: obtenerReg[0].role,
+        role: obtenerReg[0].nombre,
         nombre_completo: obtenerReg[0].nombrecompleto,
         message : 'Login correcto'
     });
@@ -57,7 +57,10 @@ function consultar_usuario(req, res, body) {
     *
     from usuario
     inner join persona
-    on persona.IDpersona = usuario.IDpersona where usuario.usuario = "${p_usuario}"
+    on persona.IDpersona = usuario.IDpersona
+    inner join rol
+    on rol.IDrol = usuario.IDrol
+    where usuario.usuario = "${p_usuario}"
     `;
     return new Promise((resolve, reject) => {
         consql.query(query, (err, rows, fields) => {

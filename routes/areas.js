@@ -13,7 +13,9 @@ const { getAreas, borrarArea, crearArea, getAreaByID, actualizarArea  } = requir
 
 const router = Router();
 
-router.get('/', validarJWT, getAreas );
+router.get('/', 
+    //validarJWT, 
+    getAreas );
 
 router.post('/', 
             [
@@ -24,7 +26,7 @@ router.post('/',
 );
 
 router.put('/:id', 
-            [    validarJWT,
+            [    //validarJWT,
                  check('nombre', 'El nombre es obligatorio').not().isEmpty(),
             validarCampos,
             ],
@@ -32,12 +34,12 @@ router.put('/:id',
 );
 
 router.delete('/:id', 
-            validarJWT,
+            //validarJWT,
             borrarArea 
 );
 
 router.get('/:id', 
-            validarJWT,
+            //validarJWT,
             getAreaByID 
 );
 

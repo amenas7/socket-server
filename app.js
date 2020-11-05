@@ -61,7 +61,7 @@ server.app.use('/api/login', require('./routes/auth') );
 // escuchar peticiones
 server.start( ()=>{
     console.log('Servidor corriendo en el puerto 3000');
-});
+}); 
 // server.app.listen(3000, () => {
 //     console.log('Express server puerto 3000: \x1b[32m%s\x1b[0m', 'online');
 // });

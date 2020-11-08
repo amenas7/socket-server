@@ -6,6 +6,7 @@ const bodyParser = require('body-parser');
 const { Server } = require('./sockets/server');
 //const server  = new Server();
 const server  = Server.instance;
+   
 
 
 // importando cors

@@ -1,4 +1,5 @@
 const express = require('express');
+const morgan = require('morgan')
 
 //const SERVER_PORT = '3000';
 
@@ -16,6 +17,7 @@ class Server {
     constructor () {
         // super( ...args );
         this.app = express();
+        this.app.use(morgan(':method :url :status :res[content-length] - :response-time ms'));
         //this.host = '192.168.1.78';
         //console.log(this.host);
         this.port = 3000;

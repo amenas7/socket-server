@@ -108,6 +108,7 @@ const crearTicketHistorial = async(req, res) => {
             mensaje: 'Error al crear historia de ticket'
         })
     }
+
     const consulta = await consultar(req, res, reg);
     // let arreglo = {
     //     uid: consulta[0].usuarioID,
@@ -120,14 +121,14 @@ const crearTicketHistorial = async(req, res) => {
     // crear token
     const token =  await generarJWT( consulta[0].IDusuario );
 
-    const consulta_socket = await consultar_socket(req, res);
+    const consulta_socket = await consultar_socket(req, res, p_id);
+    console.log(consulta_socket);
 
     const server = Server.instance;
-    server.io.emit('cambio-ticketsd', consulta_socket );
+    server.io.emit('updateTicket', consulta_socket );
     
     res.status(201).json({
-        ok: true,
-        tickets: consulta_socket,
+        ticket: consulta_socket,
         //usuario: arreglo,
         //usuariotoken: req.usuario,
         token
@@ -148,31 +149,33 @@ function registrar(req, res, query) {
 }
 
 /*---------------------**/
-function consultar_socket(req, res) {
+function consultar_socket(req, res, p_id) {
     const query = `
     SELECT 
-    ticket.IDticket as ticketid, IDtipo_inci, tipos_inci.nombre_tipo_inci, ticket.IDpersona,
-    usuario.usuario, ticket.nombre_persona, ticket.serie,
-    CONCAT(usuario.usuario, ' - ', ticket.nombre_persona) as usuario_completo, 
-    nombre_area, historial_ticket.fecha_reg, historial_ticket.detalle_ticket,
-    CASE
-        WHEN ticket.estado_principal = 1 THEN 'PENDIENTE' 
-        WHEN ticket.estado_principal = 2 THEN 'ASIGNADA' 
-        WHEN ticket.estado_principal = 3 THEN 'ATENDIENDOSE'
-        WHEN ticket.estado_principal = 4 THEN 'FINALIZADA'
-        WHEN ticket.estado_principal = 5 THEN 'RESUELTA'
-    END as estado_nombre, ticket.estado_principal as estado, ticket.IDprioridad, prioridad.nombre_prioridad,
-    concat(historial_ticket.rol_name,' - ',historial_ticket.nombre_esp) as nombre_esp, historial_ticket.IDespecialista_u
-    from ticket
-    inner join historial_ticket
-    on historial_ticket.ticketID = ticket.IDticket
-    inner join tipos_inci
-    on tipos_inci.IDtipos_inci = ticket.IDtipo_inci
-    inner join usuario
-    on usuario.IDpersona = ticket.IDpersona
-    inner join prioridad
-    on prioridad.IDprioridad = ticket.IDprioridad
-    WHERE historial_ticket.distintivo = 1 order by historial_ticket.fecha_reg desc  
+        ticket.IDticket as ticketid, IDtipo_inci, tipos_inci.nombre_tipo_inci, ticket.IDpersona,
+        usuario.usuario, ticket.nombre_persona, ticket.serie,
+        CONCAT(usuario.usuario, ' - ', ticket.nombre_persona) as usuario_completo, 
+        nombre_area, historial_ticket.fecha_reg, historial_ticket.detalle_ticket,
+        CASE
+            WHEN ticket.estado_principal = 1 THEN 'PENDIENTE' 
+            WHEN ticket.estado_principal = 2 THEN 'ASIGNADA' 
+            WHEN ticket.estado_principal = 3 THEN 'ATENDIENDOSE'
+            WHEN ticket.estado_principal = 4 THEN 'FINALIZADA'
+            WHEN ticket.estado_principal = 5 THEN 'RESUELTA'
+        END as estado_nombre, ticket.estado_principal as estado, ticket.IDprioridad, prioridad.nombre_prioridad,
+        concat(historial_ticket.rol_name,' - ',historial_ticket.nombre_esp) as nombre_esp, historial_ticket.IDespecialista_u
+        from ticket
+        inner join historial_ticket
+        on historial_ticket.ticketID = ticket.IDticket
+        inner join tipos_inci
+        on tipos_inci.IDtipos_inci = ticket.IDtipo_inci
+        inner join usuario
+        on usuario.IDpersona = ticket.IDpersona
+        inner join prioridad
+        on prioridad.IDprioridad = ticket.IDprioridad
+        WHERE historial_ticket.distintivo = 1  
+        AND ticket.IDticket = ${ p_id } 
+        order by historial_ticket.fecha_reg desc  
     `;
 
     //console.log(query);

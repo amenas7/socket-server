@@ -14,7 +14,7 @@ const { getEstadosTicket } = require('../controllers/estados_ticket');
 const router = Router();
 
 router.get('/', 
-    //validarJWT, 
+    validarJWT, 
     getEstadosTicket );
 
 

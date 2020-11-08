@@ -2,10 +2,11 @@ const mysql = require('mysql');
 
 // coneccion a la BD
 const mysqlConnection = mysql.createConnection({
-    host: 'localhost',
-    user: 'root',
-    password: '',
+    host: '168.235.83.190',
+    user: 'app_docente',
+    password: '14789UGELadmin',
     database: 'app_inci',
+    insecureAuth : true,
     multipleStatements: true
 });
 

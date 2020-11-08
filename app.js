@@ -47,6 +47,7 @@ server.app.use('/api/incidencias', require('./routes/incidencias') );
 server.app.use('/api/tickets', require('./routes/tickets') );
 server.app.use('/api/tickets_historial', require('./routes/tickets_historial') );
 server.app.use('/api/tickets_lista', require('./routes/tickets lista') );
+server.app.use('/api/tickets_lista_rp', require('./routes/tickets_lista_rp') );
 server.app.use('/api/estados_ticket', require('./routes/estados_ticket') );
 server.app.use('/api/usuario_sesion', require('./routes/usuario_sesion') );
 server.app.use('/api/inci_ticket', require('./routes/inci_ticket') );

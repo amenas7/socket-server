@@ -14,7 +14,8 @@ const { getPrioridades } = require('../controllers/prioridades');
 const router = Router();
 
 router.get('/', 
-    //validarJWT, 
+    validarJWT,
+    //validarJWT_params,
     getPrioridades );
 
 

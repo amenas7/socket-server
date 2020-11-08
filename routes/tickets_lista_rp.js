@@ -1,6 +1,6 @@
 
 /*
-    Ruta : /api/tickets_lista
+    Ruta : /api/tickets_lista_rp
 */
 
 const { Router } = require('express');
@@ -8,12 +8,14 @@ const { check } = require ('express-validator');
 const { validarCampos } = require('../middlewares/validar-campos');
 const { validarJWT, validarJWT_params } = require('../middlewares/validar-jwt');
 
-const { getTicketByID } = require('../controllers/tickets_lista');
+const { getTickets } = require('../controllers/tickets_lista_rp');
 //const { getAreas, crearUsuario, actualizarUsuario, borrarUsuario, getUsuarioByID } = require('../controllers/areas');
 
 const router = Router();
 
-// router.get('/', validarJWT, getTickets );
+router.get('/', 
+    //validarJWT, 
+    getTickets );
 
 // router.post('/', 
 //             [
@@ -36,9 +38,9 @@ const router = Router();
 //             borrarInci 
 // );
 
-router.get('/', 
-    validarJWT_params,
-    getTicketByID 
-);
+// router.get('/', 
+//     validarJWT_params,
+//     getTicketByID 
+// );
 
 module.exports = router;

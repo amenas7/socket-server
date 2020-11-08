@@ -210,7 +210,10 @@ const crearTicket = async(req, res) => {
     // });
 
     //console.log(tickets);
-    return res.status(201).json(ticket);
+    return res.status(201).json({
+        ticket: ticket,
+        token
+    });
 }
 
 function registrar(req, res, query) {
